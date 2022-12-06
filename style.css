@@ -1,0 +1,329 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  height: 100vh;
+  width: 100vw;
+  font-family: sans-serif;
+}
+
+.main-header {
+  position: absolute;
+  width: 100%;
+  /* height: 3rem; */
+  padding: 1em;
+  z-index: 5;
+  display: flex;
+  align-items: Center;
+  justify-content: space-between;
+  /* background: white; */
+}
+
+.back-btn {
+  width: 4rem;
+  background: black;
+  color: white;
+  height: 2.5rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: 0.3s ease;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.back-btn:hover {
+  transform: translateX(0.15em);
+}
+
+.starter-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: black;
+  color: white;
+  transition: 0.3s ease;
+  padding: 2em;
+  z-index: 10;
+}
+
+.starter-h1 {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 200;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.asteroid-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow-col {
+  padding: 1em;
+}
+
+.arrow-h1 {
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 1rem;
+}
+
+.arrow-h1:hover {
+  text-shadow: 3px 5px 25px white;
+}
+
+.asteroid-div {
+  height: 250px;
+  width: 250px;
+  /* border: 2px solid white; */
+  /* box-shadow: 2px 5px 25px white; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: 2px solid red; */
+}
+
+.asteroid {
+  height: 90%;
+  width: 90%;
+  border-radius: 50%;
+  border: 1px solid black;
+  box-shadow: 22px 5px 45px white;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 2px;
+  /* animation: rotate 15s ease; */
+  background: linear-gradient(to right, lightgray, gray, rgb(124, 71, 39));
+}
+
+.size-control {
+  width: 100%;
+  /* border: 2px solid red; */
+}
+
+.range-input {
+  width: 100%;
+}
+
+.size-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  padding: 0.75em;
+}
+
+.explosion {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  background: orange;
+  z-index: 15;
+  position: absolute;
+  animation: explode 3s forwards;
+}
+
+@keyframes explode {
+  0% {
+    height: 0px;
+    width: 0px;
+  }
+
+  50% {
+    height: 200px;
+    width: 200px;
+    background: red;
+  }
+
+  100% {
+    background: radial-gradient(orange, yellow);
+    opacity: 85%;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(2260deg);
+  }
+}
+
+.asteroid::after {
+  content: "";
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7), transparent);
+  width: 65%;
+  height: 125%;
+  border-radius: 50%;
+  position: absolute;
+  top: -15%;
+}
+
+.choose-btn {
+  width: 300px;
+  border: 2px solid white;
+  background: black;
+  color: white;
+  padding: 0.75em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.choose-btn:hover {
+  opacity: 75%;
+}
+
+.hide-starter-menu {
+  transform: translateY(150vh);
+}
+
+.map-app {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.flash {
+  animation: shake 3s forwards;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: black;
+}
+
+.burn {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 35%;
+  left: 35%;
+  transform: scale(0);
+  transition: 5s ease;
+  animation: burn 8s;
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+@keyframes shake {
+  20%,
+  50%,
+  70% {
+    transform: rotate(3deg);
+  }
+
+  22%,
+  52%,
+  72% {
+    transform: rotate(-3deg);
+  }
+}
+
+@keyframes burn {
+  0% {
+    transform: scale(2);
+    opacity: 50%;
+    background: radial-gradient(red, orange);
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.map-app::after {
+  height: 100%;
+  width: 100%;
+  background: black;
+  opacity: 25%;
+  content: "";
+  top: 0;
+  left: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.map-content {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  /* border: 3px solid red; */
+  padding: 5em;
+}
+
+.tap-h3-div {
+  /* background: black; */
+  color: white;
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+  z-index: 5;
+}
+
+.tap-h3 {
+  width: 300px;
+  text-align: center;
+  padding: 1em;
+  font-weight: 200;
+  margin: 0 auto;
+  letter-spacing: 0.05em;
+  border-radius: 100px;
+  background: black;
+}
+
+.asteroid-btn {
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+
+  transition: 0.5 ease;
+  box-shadow: 2px 3px 20px red;
+}
+
+.asteroid-btn:hover {
+  box-shadow: 2px 3px 20px red, 2px 3px 30px orange, 2px 3px 50px yellow,
+    2px 3px 70px black;
+}
+
+@media screen and (max-width: 450px) {
+  .map-content {
+    padding: 1em;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .form-div {
+    padding: 0;
+  }
+
+  .destination-card-header {
+    padding: 1em;
+  }
+
+  .asteroid-div {
+    height: 200px;
+    width: 200px;
+  }
+}

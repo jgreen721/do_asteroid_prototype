@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>~ Vanilla.JS Asteroid ~</title>
+  </head>
+  <body>
+    <div class="app">
+      <div class="main-header">
+        <div>
+          <h1>Janky.JS</h1>
+          <h3>Asteroid Size: <span class="asteroid-size"></span></h3>
+        </div>
+        <button class="back-btn">< Back</button>
+      </div>
+      <div class="map-app">
+        <div id="map"></div>
+        <div class="tap-h3-div">
+          <h3 class="tap-h3">Tap Impact Location!</h3>
+        </div>
+      </div>
+
+      <div class="starter-menu">
+        <h1 class="starter-h1">Asteroid Launcher</h1>
+        <div class="asteroid-flex">
+          <div class="arrow-col">
+            <h1 class="arrow-h1">PREV</h1>
+          </div>
+          <div class="asteroid-div">
+            <div class="asteroid"></div>
+          </div>
+          <div class="arrow-col">
+            <h1 class="arrow-h1">NEXT</h1>
+          </div>
+        </div>
+        <div class="size-control">
+          <div class="size-stats">
+            <h5>Diameter</h5>
+            <h5 class="size">0.5 miles</h5>
+          </div>
+          <input type="range" class="range-input" />
+        </div>
+        <button class="choose-btn start-btn">Choose Impact Location</button>
+      </div>
+    </div>
+
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+      defer
+    ></script>
+
+    <script>
+      var chooseBtn = document.querySelector(".start-btn");
+      var backBtn = document.querySelector(".back-btn");
+      var starterMenu = document.querySelector(".starter-menu");
+      var rangeInput = document.querySelector("input[type='range']");
+      var sizeEl = document.querySelector(".size");
+
+      rangeInput.oninput = (e) => {
+        console.log("hello", e.target.value);
+        sizeEl.innerHTML = `${(e.target.value / 100 + 1).toFixed(2)}  miles`;
+        document.querySelector(".asteroid-size").innerHTML = `${
+          e.target.value / 100 + 1
+        } miles`;
+        let asteroid = document.querySelector(".asteroid");
+        let asteroidHeight = parseInt(
+          window.getComputedStyle(asteroid).getPropertyValue("height")
+        );
+        let asteroidWidth = parseInt(
+          window.getComputedStyle(asteroid).getPropertyValue("width")
+        );
+        console.log(asteroidHeight, asteroidWidth);
+        asteroidHeight = 225 + parseInt(e.target.value);
+        asteroidWidth = 225 + parseInt(e.target.value);
+        console.log(asteroidHeight, asteroidWidth);
+        asteroid.style.height = `${asteroidHeight}px`;
+        asteroid.style.width = `${asteroidWidth}px`;
+      };
+      chooseBtn.onclick = () => {
+        starterMenu.classList.toggle("hide-starter-menu");
+      };
+
+      backBtn.onclick = () => {
+        starterMenu.classList.toggle("hide-starter-menu");
+      };
+    </script>
+
+    <script>
+      let markers = [];
+      function initMap() {
+        const myLatlng = { lat: 42.3601, lng: -71.0589 };
+        // myOptions = {
+        //   disableDefaultUI: true,
+        // };
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 8,
+          center: myLatlng,
+          disableDefaultUI: true,
+        });
+        // Create the initial InfoWindow.
+
+        // Configure the click listener.
+        map.addListener("click", (mapsMouseEvent) => {
+          // Close the current InfoWindow.
+          //   infoWindow.close();
+          //   // Create a new InfoWindow.
+          //   infoWindow = new google.maps.InfoWindow({
+          //     position: mapsMouseEvent.latLng,
+          //   });
+          //   infoWindow.setContent(
+          //     JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+          //   );
+          //   infoWindow.open(map);
+          hideMarkers();
+
+          let marker = new google.maps.Marker({
+            position: mapsMouseEvent.latLng,
+            map,
+            // title: "Crash Site!",
+          });
+          markers.push(marker);
+          document.querySelector(".tap-h3").innerHTML = `☄️ Launch Asteroid`;
+          document.querySelector(".tap-h3").classList.add("asteroid-btn");
+          document.querySelector(".asteroid-btn").onclick = launchAsteroid;
+        });
+      }
+
+      function setMapOnAll(map) {
+        for (let i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+
+      let offsets = {};
+
+      onclick = (e) => {
+        if (e.target.classList.contains("asteroid-btn")) return;
+        if (!markers.length) return;
+        console.log(e.target);
+        offsets = {
+          y: e.offsetY,
+          x: e.offsetX,
+        };
+      };
+
+      function hideMarkers() {
+        setMapOnAll(null);
+      }
+
+      window.initMap = initMap;
+      let hasLaunched = false;
+
+      function launchAsteroid() {
+        if (hasLaunched) {
+          document
+            .querySelector(".map-app")
+            .removeChild(document.querySelector(".explosion"));
+          document
+            .querySelector(".map-app")
+            .removeChild(document.querySelector(".burn"));
+
+          hasLaunched = false;
+        }
+        console.log("launched!!");
+        var explosionDiv = document.createElement("div");
+        explosionDiv.className = "explosion";
+        console.log(offsets);
+        explosionDiv.style.left = offsets.x - 100 + "px";
+        explosionDiv.style.top = offsets.y - 100 + "px";
+        console.log(explosionDiv);
+        document.querySelector(".map-app").append(explosionDiv);
+        document.querySelector(".map-app").classList.add("flash");
+        setTimeout(() => {
+          document.querySelector(".map-app").classList.remove("flash");
+          let burn = document.createElement("div");
+          burn.className = "burn";
+          document.querySelector(".map-app").append(burn);
+          console.log("burn!!");
+        }, 3000);
+        hasLaunched = true;
+      }
+    </script>
+  </body>
+</html>
