@@ -127,30 +127,30 @@
 }
 
 .explosion {
-  height: 200px;
-  width: 200px;
+  /* height: 200px;
+  width: 200px; */
   border-radius: 50%;
   background: orange;
   z-index: 15;
+  transform: scale(0);
   position: absolute;
-  animation: explode 3s forwards;
+  animation: explode 3s;
 }
 
 @keyframes explode {
   0% {
-    height: 0px;
-    width: 0px;
   }
 
   50% {
-    height: 200px;
-    width: 200px;
+    transform: scale(1);
     background: red;
+    opacity: 85%;
   }
 
   100% {
     background: radial-gradient(orange, yellow);
     opacity: 85%;
+    transform: scale(1);
   }
 }
 
@@ -207,16 +207,18 @@
 }
 
 .burn {
-  height: 100%;
-  width: 100%;
+  height: 800px;
+  width: 800px;
   position: absolute;
-  top: 35%;
-  left: 35%;
+
   transform: scale(0);
-  transition: 5s ease;
-  animation: burn 8s;
+  /* transition: 5s ease; */
+  animation: burn 2s 1s;
   border-radius: 50%;
-  transform-origin: center;
+  z-index: 15;
+  opacity: 75%;
+  /* transform-origin: center; */
+  background: red;
 }
 
 @keyframes shake {
@@ -235,13 +237,19 @@
 
 @keyframes burn {
   0% {
-    transform: scale(2);
+    /* transform: scale(2); */
     opacity: 50%;
     background: radial-gradient(red, orange);
   }
 
+  50% {
+    transform: scale(1);
+  }
+
   100% {
-    opacity: 0;
+    transform: scale(1);
+
+    /* opacity: 0; */
   }
 }
 

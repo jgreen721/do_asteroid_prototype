@@ -12,7 +12,7 @@
       <div class="main-header">
         <div>
           <h1>Janky.JS</h1>
-          <h3>Asteroid Size: <span class="asteroid-size"></span></h3>
+          <h3>Asteroid Size: <span class="asteroid-size">1</span></h3>
         </div>
         <button class="back-btn">< Back</button>
       </div>
@@ -168,16 +168,34 @@
         var explosionDiv = document.createElement("div");
         explosionDiv.className = "explosion";
         console.log(offsets);
-        explosionDiv.style.left = offsets.x - 100 + "px";
-        explosionDiv.style.top = offsets.y - 100 + "px";
+
+        var asteroidRadius = document
+          .querySelector(".size")
+          .innerHTML.split(" ")[0];
+        console.log(asteroidRadius);
+        let height = 200 + asteroidRadius * 200;
+        let width = 200 + asteroidRadius * 200;
+        explosionDiv.style.height = height + "px";
+        explosionDiv.style.width = width + "px";
+        explosionDiv.style.left = offsets.x - height / 2 + "px";
+        explosionDiv.style.top = offsets.y - width / 2 + "px";
         console.log(explosionDiv);
         document.querySelector(".map-app").append(explosionDiv);
         document.querySelector(".map-app").classList.add("flash");
+        let burn = document.createElement("div");
+        burn.className = "burn";
+        burn.style.left = offsets.x - 400 + "px";
+        burn.style.top = offsets.y - 400 + "px";
+        console.log(burn);
+        document.querySelector(".map-app").append(burn);
         setTimeout(() => {
           document.querySelector(".map-app").classList.remove("flash");
-          let burn = document.createElement("div");
-          burn.className = "burn";
-          document.querySelector(".map-app").append(burn);
+          //   let burn = document.createElement("div");
+          //   burn.className = "burn";
+          //   burn.style.left = offsets.x - 400 + "px";
+          //   burn.style.top = offsets.y - 400 + "px";
+          //   console.log(burn);
+          //   document.querySelector(".map-app").append(burn);
           console.log("burn!!");
         }, 3000);
         hasLaunched = true;
